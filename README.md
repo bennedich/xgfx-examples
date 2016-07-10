@@ -1,8 +1,8 @@
 # emscripten-renderer-examples
 Examples using the [emscripten-renderer](https://github.com/bennedich/emscripten-renderer).
 
-- `ex1` - Barebones rendering of a quad.
-- `ex2` - Barebones fps camera navigation using `glm`.
+- [`ex1` - Barebones rendering of a quad.](https://bennedich.github.io/emscripten-renderer-examples/ex1.html)
+- [`ex2` - Barebones fps camera navigation using `glm`.](https://bennedich.github.io/emscripten-renderer-examples/ex2.html)
 
 ## Build and run
 
