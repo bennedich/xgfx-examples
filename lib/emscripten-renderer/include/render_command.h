@@ -1,6 +1,6 @@
 #pragma once
 
-#include "platform.h"
+#include "headers_type.h"
 #include "render_func.h"
 
 namespace Raphael

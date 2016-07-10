@@ -1,6 +1,6 @@
 #pragma once
 
-#include "platform.h"
+#include "headers_type.h"
 
 namespace Raphael
 {
@@ -16,7 +16,7 @@ namespace Raphael
 	class ShaderLoader_OpenGL : public IShaderLoader
 	{
 	public:
-		virtual bool load( const char* vert, const char* frag, GLuint& prog_handle ) const override;
-		virtual void unload( const GLuint prog_handle ) const override;
+		virtual bool load( const char* vert, const char* frag, u32& prog_handle ) const override;
+		virtual void unload( const u32 prog_handle ) const override;
 	};
 }

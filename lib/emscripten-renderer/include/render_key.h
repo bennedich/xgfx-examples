@@ -11,7 +11,7 @@
 #define RENDER_INPUT_IS_COMMAND        u32 is_command        : 1;
 #define RENDER_INPUT_TRANSLUCENCY_TYPE u32 translucency_type : 2;
 
-#include "platform.h"
+#include "headers_type.h"
 
 namespace Raphael
 {

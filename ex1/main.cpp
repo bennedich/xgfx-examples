@@ -4,7 +4,8 @@
 #include <sstream>
 #include <string>
 
-#include "platform.h"
+#include "headers_type.h"
+#include "headers_gl.h"
 
 #include "shader_loader.h"
 #include "mesh_loader.h"

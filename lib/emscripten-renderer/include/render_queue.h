@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "platform.h"
+#include "headers_type.h"
 #include "render_key.h"
 #include "render_command.h"
 
