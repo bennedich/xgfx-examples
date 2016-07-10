@@ -4,6 +4,7 @@ project( lib )
 if( EMSCRIPTEN )
 	set( DEPENDENCIES_INCLUDES
 		${CMAKE_CURRENT_SOURCE_DIR}/emscripten-renderer/include
+		${CMAKE_CURRENT_SOURCE_DIR}/glm-0.9.7.5
 		PARENT_SCOPE
 	)
 
@@ -20,6 +21,7 @@ else()
 		${SDL2_INCLUDE_DIRS}
 		${CMAKE_CURRENT_SOURCE_DIR}/glad/include
 		${CMAKE_CURRENT_SOURCE_DIR}/emscripten-renderer/include
+		${CMAKE_CURRENT_SOURCE_DIR}/glm-0.9.7.5
 		PARENT_SCOPE
 	)
 
