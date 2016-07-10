@@ -9,5 +9,5 @@ rm -rf ./bin/desktop/
 mkdir ./build/
 mkdir ./build/desktop/
 cd ./build/desktop/
-cmake ../..
-make
+cmake $1 ../..
+make $1

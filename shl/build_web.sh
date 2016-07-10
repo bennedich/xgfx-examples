@@ -9,5 +9,5 @@ rm -rf ./bin/web/
 mkdir ./build/
 mkdir ./build/web/
 cd ./build/web/
-emcmake cmake ../..
-emmake make
+emcmake cmake $1 ../..
+emmake make $1
