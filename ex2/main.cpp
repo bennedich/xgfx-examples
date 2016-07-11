@@ -65,7 +65,9 @@ namespace
 	// Camera transform.
 
 	glm::vec3 pos;
+	glm::vec3 posv;
 	glm::quat rot;
+	glm::quat rotv;
 	glm::mat4 transform;
 	glm::mat4 proj;
 	glm::mat4 view;
@@ -193,7 +195,9 @@ static std::string opengl_description()
 
 static void handle_input( u32 dt )
 {
-	float d = dt * 0.003f; // Delta movement.
+	const float D_POS = dt * .001f; // Delta movement.
+	const float D_ROT = dt * .0006f; // Delta rotation.
+	const float RETARDATION = .15f;
 
 	// Extract transform components right, up, forward.
 
@@ -205,32 +209,40 @@ static void handle_input( u32 dt )
 
 	const uint8_t* state = SDL_GetKeyboardState( NULL );
 	if ( state[SDL_SCANCODE_A] )
-		pos -= d * r;
+		posv -= D_POS * r;
 	if ( state[SDL_SCANCODE_D] )
-		pos += d * r;
+		posv += D_POS * r;
 	if ( state[SDL_SCANCODE_F] )
-		pos -= d * u;
+		posv -= D_POS * u;
 	if ( state[SDL_SCANCODE_R] )
-		pos += d * u;
+		posv += D_POS * u;
 	if ( state[SDL_SCANCODE_S] )
-		pos += d * f;
+		posv += D_POS * f;
 	if ( state[SDL_SCANCODE_W] )
-		pos -= d * f;
+		posv -= D_POS * f;
+
+	pos += posv;
+	const auto VEC3_ZERO = glm::vec3();
+	posv = glm::mix( posv, VEC3_ZERO, RETARDATION );
 
 	// Rotate.
 
 	if ( state[SDL_SCANCODE_E] )
-		rot = glm::angleAxis( -d, f ) * rot;
+		rotv = glm::angleAxis( -D_ROT, f ) * rotv;
 	if ( state[SDL_SCANCODE_Q] )
-		rot = glm::angleAxis( d, f ) * rot;
+		rotv = glm::angleAxis( D_ROT, f ) * rotv;
 	if ( state[SDL_SCANCODE_RIGHT] )
-		rot = glm::angleAxis( -d, u ) * rot;
+		rotv = glm::angleAxis( -D_ROT, u ) * rotv;
 	if ( state[SDL_SCANCODE_LEFT] )
-		rot = glm::angleAxis( d, u ) * rot;
+		rotv = glm::angleAxis( D_ROT, u ) * rotv;
 	if ( state[SDL_SCANCODE_DOWN] )
-		rot = glm::angleAxis( -d, r ) * rot;
+		rotv = glm::angleAxis( -D_ROT, r ) * rotv;
 	if ( state[SDL_SCANCODE_UP] )
-		rot = glm::angleAxis( d, r ) * rot;
+		rotv = glm::angleAxis( D_ROT, r ) * rotv;
+
+	rot = rotv * rot;
+	const auto QUAT_ZERO = glm::quat();
+	rotv = glm::lerp( rotv, QUAT_ZERO, RETARDATION );
 
 	// Apply transformations.
 
