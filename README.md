@@ -3,6 +3,7 @@ Examples using the [emscripten-renderer](https://github.com/bennedich/emscripten
 
 - [`ex1` - Barebones rendering of a quad.](https://bennedich.github.io/emscripten-renderer-examples/ex1.html)
 - [`ex2` - Barebones fps camera navigation using `glm`.](https://bennedich.github.io/emscripten-renderer-examples/ex2.html)
+- [`ex3` - A rewrite of ex2 using a tiny entity component system.](https://bennedich.github.io/emscripten-renderer-examples/ex3.html)
 
 ## Build and run
 
