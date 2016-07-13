@@ -4,9 +4,8 @@
 
 using xecs::u32;
 
-struct Time
+struct TimeDelta
 {
-	u32 time;
 	u32 t0;
 	u32 t1;
 	u32 dt;

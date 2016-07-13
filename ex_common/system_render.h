@@ -1,6 +1,6 @@
 #pragma once
 
-#include <xgfx/headers_gl.h>   // TODO Move this into a namespace.
+#include <xgfx/headers_gl.h>
 #include <xgfx/render_queue.h>
 #include <xecs/system.h>
 

@@ -11,6 +11,7 @@
 #include <xecs/entity.h>
 #include <xecs/system.h>
 
+#include "time_delta.h"
 #include "input_context.h"
 #include "component_transform.h"
 #include "component_physics.h"
@@ -18,7 +19,7 @@
 
 class SystemMovement : public xecs::System
 {
-	std::shared_ptr<const Time>         _time;
+	std::shared_ptr<const TimeDelta>    _time;
 	std::shared_ptr<const InputContext> _input_context;
 	std::shared_ptr<ComponentTransform> _c_tfm;
 	std::shared_ptr<ComponentPhysics>   _c_phy;
@@ -35,7 +36,7 @@ class SystemMovement : public xecs::System
 
 public:
 	explicit SystemMovement(
-			std::shared_ptr<const Time> time,
+			std::shared_ptr<const TimeDelta> time,
 			std::shared_ptr<const InputContext> input_context,
 			std::shared_ptr<ComponentTransform> c_tfm,
 			std::shared_ptr<ComponentPhysics> c_phy,

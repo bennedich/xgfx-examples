@@ -18,7 +18,10 @@ else()
 endif()
 
 add_subdirectory( lib )
-include_directories( ${DEPENDENCIES_INCLUDES} )
+include_directories(
+	${DEPENDENCIES_INCLUDES}
+	${CMAKE_SOURCE_DIR}/ex_common
+)
 
 function( ADD_TARGET target )
 	add_executable( ${target} ${target}/main.cpp )

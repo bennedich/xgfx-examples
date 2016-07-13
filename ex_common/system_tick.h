@@ -3,14 +3,14 @@
 #include <memory>
 #include <SDL.h>
 #include <xecs/system.h>
-#include "time.h"
+#include "time_delta.h"
 
 class SystemTick : public xecs::System
 {
-	std::shared_ptr< Time > _time;
+	std::shared_ptr< TimeDelta > _time;
 
 public:
-	explicit SystemTick( std::shared_ptr<Time> time )
+	explicit SystemTick( std::shared_ptr<TimeDelta> time )
 		: _time( time )
 	{
 		_time->t0 = SDL_GetTicks() - 17;
