@@ -3,8 +3,8 @@
 #include <vector>
 #include <deque>
 
-#include "xecs_type.h"
-#include "xecs_entity.h"
+#include "xecs/type.h"
+#include "xecs/entity.h"
 
 namespace xecs
 {

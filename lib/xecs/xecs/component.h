@@ -4,8 +4,8 @@
 #include <unordered_map>
 #include <limits>
 
-#include "xecs_type.h"
-#include "xecs_entity.h"
+#include "xecs/type.h"
+#include "xecs/entity.h"
 
 namespace xecs
 {

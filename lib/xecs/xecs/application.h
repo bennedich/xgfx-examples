@@ -7,7 +7,7 @@
 	#include <emscripten.h>
 #endif
 
-#include "xecs_system.h"
+#include "xecs/system.h"
 
 namespace xecs
 {

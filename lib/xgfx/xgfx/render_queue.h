@@ -6,7 +6,7 @@
 #include "render_key.h"
 #include "render_command.h"
 
-namespace Raphael
+namespace xgfx
 {
 	struct RenderQueue
 	{

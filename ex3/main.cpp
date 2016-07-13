@@ -2,11 +2,10 @@
 #include <iostream>
 #include <sstream>
 
-#include "headers_type.h" // TODO Move this into a namespace.
-#include "headers_gl.h"   // TODO Move this into a namespace.
+#include <xgfx/headers_gl.h>   // TODO Move this into a namespace.
 
-#include <xecs_application.h>
-#include <xecs_entity_manager.h>
+#include <xecs/application.h>
+#include <xecs/entity_manager.h>
 
 #include "time.h"
 #include "input_context.h"
@@ -127,7 +126,7 @@ int main()
 	auto stay_alive = std::make_shared<bool>();
 	auto time = std::make_shared<Time>();
 	auto input_context = std::make_shared<InputContext>();
-	auto render_queue = std::make_shared<RenderQueue>();
+	auto render_queue = std::make_shared<xgfx::RenderQueue>();
 	auto render_funcs = std::make_shared<RenderFuncs>( render_funcs_OpenGL );
 
 	auto e_mgr = std::make_shared< xecs::EntityManager >();

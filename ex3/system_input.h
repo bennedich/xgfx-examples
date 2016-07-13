@@ -2,7 +2,7 @@
 
 #include <string> // std::memset
 
-#include <xecs_system.h>
+#include <xecs/system.h>
 #include "input_context.h"
 
 class SystemInput : public xecs::System

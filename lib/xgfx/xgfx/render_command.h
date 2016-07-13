@@ -3,7 +3,7 @@
 #include "headers_type.h"
 #include "render_func.h"
 
-namespace Raphael
+namespace xgfx
 {
 	union RenderCommand
 	{

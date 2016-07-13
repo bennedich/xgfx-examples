@@ -4,16 +4,16 @@
 #include <sstream>
 #include <string>
 
-#include "headers_type.h"
-#include "headers_gl.h"
+#include <xgfx/headers_type.h>
+#include <xgfx/headers_gl.h>
 
-#include "shader_loader.h"
-#include "mesh_loader.h"
+#include <xgfx/shader_loader.h>
+#include <xgfx/mesh_loader.h>
 
-#include "render_key.h"
-#include "render_command.h"
-#include "render_queue.h"
-#include "render_func.h"
+#include <xgfx/render_key.h>
+#include <xgfx/render_command.h>
+#include <xgfx/render_queue.h>
+#include <xgfx/render_func.h>
 //#include "renderer.h"
 
 // Gpu resource loaders assumes resource data has already been loaded into suitable data structure.
@@ -30,7 +30,7 @@
 using std::cout;
 using std::endl;
 
-using namespace Raphael;
+using namespace xgfx;
 
 namespace ReturnStatus
 {

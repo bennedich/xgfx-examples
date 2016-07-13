@@ -13,7 +13,7 @@
 
 #include "headers_type.h"
 
-namespace Raphael
+namespace xgfx
 {
 	union RenderKey
 	{

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <render_func.h>
-#include <render_command.h>
+#include <xgfx/render_func.h>
+#include <xgfx/render_command.h>
 
 struct VertexBitmap
 {
@@ -12,13 +12,13 @@ struct VertexBitmap
 class RenderFuncs
 {
 public:
-	Raphael::RenderFunc draw_bitmap;
+	xgfx::RenderFunc draw_bitmap;
 };
 
 RenderFuncs render_funcs_OpenGL
 {
 	// Draw bitmap.
-	[]( const Raphael::RenderCommand *command )
+	[]( const xgfx::RenderCommand *command )
 	{
 		glUseProgram( command->DrawBitmap.shader );
 

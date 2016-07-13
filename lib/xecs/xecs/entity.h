@@ -1,7 +1,7 @@
 #pragma once
 
-#include "xecs_type.h"
-#include "xecs_entity_aux.h"
+#include "xecs/type.h"
+#include "xecs/entity_aux.h"
 
 namespace xecs
 {

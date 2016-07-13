@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <SDL.h>
-#include <xecs_system.h>
+#include <xecs/system.h>
 #include "time.h"
 
 class SystemTick : public xecs::System

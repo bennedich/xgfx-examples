@@ -1,16 +1,14 @@
 #pragma once
 
-#include <xecs_system.h>
+#include <xecs/system.h>
+#include <xecs/entity_manager.h>
 
-#include <render_key.h>
-#include <render_command.h>
-#include <render_queue.h>
-#include <render_func.h>
-
-#include <shader_loader.h>
-#include <mesh_loader.h>
-
-#include <xecs_entity_manager.h>
+#include <xgfx/render_key.h>
+#include <xgfx/render_command.h>
+#include <xgfx/render_queue.h>
+#include <xgfx/render_func.h>
+#include <xgfx/shader_loader.h>
+#include <xgfx/mesh_loader.h>
 
 #include "render_funcs.h"
 #include "component_transform.h"
@@ -18,8 +16,8 @@
 
 namespace
 {
-	Raphael::RenderKey     quad_key;
-	Raphael::RenderCommand quad_cmd;
+	xgfx::RenderKey     quad_key;
+	xgfx::RenderCommand quad_cmd;
 
 	VertexBitmap quad_mesh_raw[ 4 ] = {
 		{ -.5f, -.5f, .0f, 0.f, 0.f },
@@ -71,7 +69,7 @@ namespace
 class SystemEntrypoint : public xecs::System
 {
 	std::shared_ptr< RenderFuncs >          _render_funcs;
-	std::shared_ptr< Raphael::RenderQueue > _render_queue;
+	std::shared_ptr< xgfx::RenderQueue > _render_queue;
 	std::shared_ptr< xecs::EntityManager >  _e_mgr;
 	std::shared_ptr< ComponentTransform >   _c_tfm;
 	std::shared_ptr< ComponentPhysics >     _c_phy;
@@ -83,7 +81,7 @@ class SystemEntrypoint : public xecs::System
 public:
 	explicit SystemEntrypoint(
 			std::shared_ptr< RenderFuncs > render_funcs,
-			std::shared_ptr< Raphael::RenderQueue > render_queue,
+			std::shared_ptr< xgfx::RenderQueue > render_queue,
 			std::shared_ptr< xecs::EntityManager > e_mgr,
 			std::shared_ptr< ComponentTransform > c_tfm,
 			std::shared_ptr< ComponentPhysics > c_phy,
@@ -116,12 +114,12 @@ public:
 			_c_tfm->_data.rot[ i_tfm ] = glm::quat();
 			_c_tfm->_data.scale[ i_tfm ] = 1.f;
 
-			Raphael::ShaderLoader_OpenGL shader_loader;
+			xgfx::ShaderLoader_OpenGL shader_loader;
 			u32 shader_handle;
 			shader_loader.load( (shader_head+vert).c_str(), (shader_head+frag).c_str(), shader_handle );
 
-			Raphael::MeshLoader_OpenGL mesh_loader;
-			Raphael::Mesh quad_mesh = mesh_loader.load( sizeof(quad_mesh_raw), quad_mesh_raw );
+			xgfx::MeshLoader_OpenGL mesh_loader;
+			xgfx::Mesh quad_mesh = mesh_loader.load( sizeof(quad_mesh_raw), quad_mesh_raw );
 
 			quad_key.RenderTranslucent.translucency_type = 1;
 			quad_key.RenderTranslucent.depth = 1;

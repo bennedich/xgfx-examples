@@ -3,7 +3,7 @@
 #include "headers_type.h"
 #include "mesh.h"
 
-namespace Raphael
+namespace xgfx
 {
 	class IMeshLoader
 	{

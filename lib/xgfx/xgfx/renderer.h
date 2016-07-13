@@ -10,13 +10,13 @@
 //
 //namespace
 //{
-//	inline bool compare_render_key ( Raphael::RenderKey a, Raphael::RenderKey b )
+//	inline bool compare_render_key ( xgfx::RenderKey a, xgfx::RenderKey b )
 //	{
 //		return a.raw < b.raw;
 //	}
 //}
 //
-//namespace Raphael
+//namespace xgfx
 //{
 //	class Renderer
 //	{

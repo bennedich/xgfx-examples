@@ -8,8 +8,8 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/transform.hpp>   // glm::translate, glm::rotate, glm::scale
 
-#include <xecs_entity.h>
-#include <xecs_system.h>
+#include <xecs/entity.h>
+#include <xecs/system.h>
 
 #include "input_context.h"
 #include "component_transform.h"

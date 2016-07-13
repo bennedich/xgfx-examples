@@ -2,7 +2,7 @@
 
 #include <SDL.h>
 
-#include <xecs_system.h>
+#include <xecs/system.h>
 
 #include "component_transform.h"
 #include "component_camera.h"

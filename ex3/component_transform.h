@@ -1,6 +1,6 @@
 #pragma once
 
-#include <xecs_component.h>
+#include <xecs/component.h>
 
 #include <glm/vec3.hpp>
 #include <glm/mat4x4.hpp>

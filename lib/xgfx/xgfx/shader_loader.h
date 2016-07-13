@@ -2,7 +2,7 @@
 
 #include "headers_type.h"
 
-namespace Raphael
+namespace xgfx
 {
 	class IShaderLoader
 	{

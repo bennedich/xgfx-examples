@@ -1,6 +1,6 @@
 #pragma once
 
-#include "xecs_type.h"
+#include "xecs/type.h"
 
 namespace xecs
 {

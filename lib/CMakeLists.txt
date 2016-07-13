@@ -4,13 +4,13 @@ project( lib )
 if( EMSCRIPTEN )
 	set( DEPENDENCIES_INCLUDES
 		${CMAKE_CURRENT_SOURCE_DIR}/glm-0.9.7.5
-		${CMAKE_CURRENT_SOURCE_DIR}/emscripten-renderer/include
+		${CMAKE_CURRENT_SOURCE_DIR}/xgfx
 		${CMAKE_CURRENT_SOURCE_DIR}/xecs
 		PARENT_SCOPE
 	)
 
 	set( DEPENDENCIES_LIBRARIES
-		${CMAKE_CURRENT_SOURCE_DIR}/emscripten-renderer/bin/web/libraphael.a
+		${CMAKE_CURRENT_SOURCE_DIR}/xgfx/bin/web/libxgfx.a
 		PARENT_SCOPE
 	)
 else()
@@ -22,14 +22,14 @@ else()
 		${SDL2_INCLUDE_DIRS}
 		${CMAKE_CURRENT_SOURCE_DIR}/glad/include
 		${CMAKE_CURRENT_SOURCE_DIR}/glm-0.9.7.5
-		${CMAKE_CURRENT_SOURCE_DIR}/emscripten-renderer/include
+		${CMAKE_CURRENT_SOURCE_DIR}/xgfx
 		${CMAKE_CURRENT_SOURCE_DIR}/xecs
 		PARENT_SCOPE
 	)
 
 	set( DEPENDENCIES_LIBRARIES
 		${SDL2_LIBRARIES}
-		${CMAKE_CURRENT_SOURCE_DIR}/emscripten-renderer/bin/desktop/libraphael.a
+		${CMAKE_CURRENT_SOURCE_DIR}/xgfx/bin/desktop/libxgfx.a
 		PARENT_SCOPE
 	)
 endif()

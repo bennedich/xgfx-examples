@@ -1,6 +1,8 @@
 #pragma once
 
-#include "headers_type.h"
+#include "xecs/type.h"
+
+using xecs::u32;
 
 struct Time
 {
