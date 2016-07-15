@@ -32,8 +32,8 @@ public:
 	void _copy( unsigned i, unsigned i_dst, ComponentCamera::InstanceData& data_dst )
 	{
 		data_dst.entity[ i_dst ] = _data.entity.at( i );
-		data_dst.view[ i_dst ]   = _data.view.at( i );
-		data_dst.proj[ i_dst ]   = _data.proj.at( i );
+		data_dst.view[ i_dst ] = _data.view.at( i );
+		data_dst.proj[ i_dst ] = _data.proj.at( i );
 	}
 
 	inline mat4& view( Entity e ) { return get( _data.view, e ); }

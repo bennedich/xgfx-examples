@@ -36,10 +36,10 @@ public:
 	void _copy( unsigned i, unsigned i_dst, ComponentTransform::InstanceData& data_dst )
 	{
 		data_dst.entity[ i_dst ] = _data.entity.at( i );
-		data_dst.pos[ i_dst ]   = _data.pos.at( i );
-		data_dst.rot[ i_dst ]   = _data.rot.at( i );
-		data_dst.scale[ i_dst ]   = _data.scale.at( i );
-		data_dst.transform[ i_dst ]   = _data.transform.at( i );
+		data_dst.pos[ i_dst ] = _data.pos.at( i );
+		data_dst.rot[ i_dst ] = _data.rot.at( i );
+		data_dst.scale[ i_dst ] = _data.scale.at( i );
+		data_dst.transform[ i_dst ] = _data.transform.at( i );
 	}
 
 	inline vec3& pos( Entity e ) { return get( _data.pos, e ); }

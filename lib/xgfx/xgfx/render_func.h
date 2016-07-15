@@ -2,6 +2,6 @@
 
 namespace xgfx
 {
-	union RenderCommand;
-	typedef void ( *RenderFunc )( const RenderCommand* );
+	struct RenderData;
+	typedef void ( *RenderFunc )( const void*, const RenderData* );
 }

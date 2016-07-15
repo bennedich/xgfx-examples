@@ -99,10 +99,28 @@ namespace
 #endif
 	};
 
+	struct RenderContext
+	{
+		glm::mat4 vp;
+	};
+
+	union RenderDataBitmap
+	{
+		RenderData raw;
+		struct {
+			u32        vbo_n;
+			u32        vbo; // vbo contains attributes such as vert,norm,color, these must then also exist in shader.
+			u32        shader;
+			u32        bitmap;
+			float      size[ 2 ];
+		};
+	};
+	static_assert( sizeof(RenderDataBitmap) == xgfx::RENDER_DATA_SIZE, "RenderData wrong size." );
+
 	RenderKey     quad_key;
 	RenderCommand quad_cmd;
 	RenderQueue   render_queue;
-//	Renderer      renderer;
+	RenderContext render_context;
 
 	VertexBitmap quad[ 4 ] = {
 		{ -.5f, -.5f, .0f, 0.f, 0.f },
@@ -155,20 +173,20 @@ namespace
 		return a.raw < b.raw;
 	}
 
-	void draw_bitmap( const RenderCommand* command )
+	void draw_bitmap( const RenderContext* ctx, const RenderDataBitmap* data )
 	{
-		glUseProgram( command->DrawBitmap.shader );
+		glUseProgram( data->shader );
 
-		glUniformMatrix4fv( glGetUniformLocation( command->DrawBitmap.shader, "mvp" ), 1, GL_FALSE, command->DrawBitmap.mvp );
+		glUniformMatrix4fv( glGetUniformLocation( data->shader, "mvp" ), 1, GL_FALSE, glm::value_ptr(ctx->vp) );
 //		glUniform2fv( glGetUniformLocation( command->DrawBitmap.shader, "size" ), 1, command->DrawBitmap.size );
 //
 		GLsizei stride = sizeof( VertexBitmap );
-		int n_verts = command->DrawBitmap.vbo_n / stride;
+		int n_verts = data->vbo_n / stride;
 		auto uv_offset = (const void*)sizeof( VertexBitmap::pos );
 
-		glBindBuffer( GL_ARRAY_BUFFER, command->DrawBitmap.vbo );
-		glVertexAttribPointer( glGetAttribLocation( command->DrawBitmap.shader, "pos" ), 3, GL_FLOAT, GL_FALSE, stride, 0 );
-		glVertexAttribPointer( glGetAttribLocation( command->DrawBitmap.shader, "uv" ), 2, GL_FLOAT, GL_FALSE, stride, uv_offset );
+		glBindBuffer( GL_ARRAY_BUFFER, data->vbo );
+		glVertexAttribPointer( glGetAttribLocation( data->shader, "pos" ), 3, GL_FLOAT, GL_FALSE, stride, 0 );
+		glVertexAttribPointer( glGetAttribLocation( data->shader, "uv" ), 2, GL_FLOAT, GL_FALSE, stride, uv_offset );
 		//glVertexAttribPointer( glGetAttribLocation( data.shader, "col" ), 3, GL_FLOAT, GL_FALSE, stride, 0 );
 
 		// TODO bind relevant texture here.
@@ -276,15 +294,14 @@ static void render( u32 dt )
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
+	render_context.vp = vp;
+
 	std::sort( render_queue.key.data(), render_queue.key.data() + render_queue.size, compare_render_key );
 	for ( u32 i = 0, n = render_queue.size; i < n; ++i )
 	{
 		int command_i = render_queue.key[ i ].RenderCommon.data_index;
 		RenderCommand& cmd = render_queue.cmd[ command_i ];
-
-		reinterpret_cast< glm::mat4& >( cmd.Common.mvp ) = vp;
-
-		cmd.Common.func( &cmd );
+		cmd.func( &render_context, &cmd.data );
 	}
 
 	SDL_GL_SwapWindow( sdl_window );
@@ -334,7 +351,7 @@ int main()
 	}
 
 	sdl_window = SDL_CreateWindow(
-		"SDL Tutorial",
+		"xgfx",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		960, 480,
 		SDL_WINDOW_OPENGL
@@ -387,14 +404,16 @@ int main()
 		quad_key.RenderTranslucent.translucency_type = 1;
 		quad_key.RenderTranslucent.depth = 1;
 
-		quad_cmd.DrawBitmap.func = draw_bitmap;
-		reinterpret_cast< glm::mat4& >( quad_cmd.DrawBitmap.mvp ) = glm::mat4( 1.f );
-		quad_cmd.DrawBitmap.vbo_n = quad_mesh.vbo_n;
-		quad_cmd.DrawBitmap.vbo = quad_mesh.vbo;
-		quad_cmd.DrawBitmap.shader = shader_handle;
-//	quad_cmd.DrawBitmap.bitmap = reinterpret_cast< RetroGraphics::TextureManager_OpenGL& >( *_texture_manager ).lookup( bitmap );
-		quad_cmd.DrawBitmap.size[ 0 ] = 128;
-		quad_cmd.DrawBitmap.size[ 1 ] = 128;
+		RenderDataBitmap data;
+		data.vbo_n = quad_mesh.vbo_n;
+		data.vbo = quad_mesh.vbo;
+		data.shader = shader_handle;
+//	data.bitmap = reinterpret_cast< RetroGraphics::TextureManager_OpenGL& >( *_texture_manager ).lookup( bitmap );
+		data.size[ 0 ] = 128;
+		data.size[ 1 ] = 128;
+
+		quad_cmd.func = (xgfx::RenderFunc) draw_bitmap;
+		quad_cmd.data = data.raw;
 
 		render_queue.cmd.push_back( quad_cmd );
 		render_queue.key.push_back( quad_key );

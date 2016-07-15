@@ -124,14 +124,16 @@ public:
 			quad_key.RenderTranslucent.translucency_type = 1;
 			quad_key.RenderTranslucent.depth = 1;
 
-			quad_cmd.DrawBitmap.func = _render_funcs->draw_bitmap;
-			reinterpret_cast< glm::mat4& >( quad_cmd.DrawBitmap.mvp ) = glm::mat4( 1.f );
-			quad_cmd.DrawBitmap.vbo_n = quad_mesh.vbo_n;
-			quad_cmd.DrawBitmap.vbo = quad_mesh.vbo;
-			quad_cmd.DrawBitmap.shader = shader_handle;
-//	quad_cmd.DrawBitmap.bitmap = reinterpret_cast< RetroGraphics::TextureManager_OpenGL& >( *_texture_manager ).lookup( bitmap );
-			quad_cmd.DrawBitmap.size[ 0 ] = 128;
-			quad_cmd.DrawBitmap.size[ 1 ] = 128;
+			RenderDataBitmap data;
+			data.vbo_n = quad_mesh.vbo_n;
+			data.vbo = quad_mesh.vbo;
+			data.shader = shader_handle;
+//	data.bitmap = reinterpret_cast< RetroGraphics::TextureManager_OpenGL& >( *_texture_manager ).lookup( bitmap );
+			data.size[ 0 ] = 128;
+			data.size[ 1 ] = 128;
+
+			quad_cmd.func = (xgfx::RenderFunc) _render_funcs->draw_bitmap;
+			quad_cmd.data = data.raw;
 
 			_render_queue->cmd.push_back( quad_cmd );
 			_render_queue->key.push_back( quad_key );

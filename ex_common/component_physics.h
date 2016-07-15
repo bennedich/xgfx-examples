@@ -32,8 +32,8 @@ public:
 	void _copy( unsigned i, unsigned i_dst, ComponentPhysics::InstanceData& data_dst )
 	{
 		data_dst.entity[ i_dst ] = _data.entity.at( i );
-		data_dst.posv[ i_dst ]   = _data.posv.at( i );
-		data_dst.rotv[ i_dst ]   = _data.rotv.at( i );
+		data_dst.posv[ i_dst ] = _data.posv.at( i );
+		data_dst.rotv[ i_dst ] = _data.rotv.at( i );
 	}
 
 	inline vec3& posv( Entity e ) { return get( _data.posv, e ); }

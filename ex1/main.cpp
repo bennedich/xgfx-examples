@@ -14,7 +14,6 @@
 #include <xgfx/render_command.h>
 #include <xgfx/render_queue.h>
 #include <xgfx/render_func.h>
-//#include "renderer.h"
 
 // Gpu resource loaders assumes resource data has already been loaded into suitable data structure.
 // Their role is to load/unload resources to the gpu side.
@@ -75,10 +74,22 @@ namespace
 #endif
 	};
 
+	union RenderDataBitmap
+	{
+		RenderData raw;
+		struct {
+			u32        vbo_n;
+			u32        vbo; // vbo contains attributes such as vert,norm,color, these must then also exist in shader.
+			u32        shader;
+			u32        bitmap;
+			float      size[ 2 ];
+		};
+	};
+	static_assert( sizeof(RenderDataBitmap) == xgfx::RENDER_DATA_SIZE, "RenderData wrong size." );
+
 	RenderKey     quad_key;
 	RenderCommand quad_cmd;
 	RenderQueue   render_queue;
-//	Renderer      renderer;
 
 	VertexBitmap quad[ 4 ] = {
 		{ -.5f, -.5f, .0f, 0.f, 0.f },
@@ -131,20 +142,20 @@ namespace
 		return a.raw < b.raw;
 	}
 
-	void draw_bitmap( const RenderCommand* command )
+	void draw_bitmap( const void*, const RenderDataBitmap* data )
 	{
-		glUseProgram( command->DrawBitmap.shader );
+		glUseProgram( data->shader );
 
 //		glUniformMatrix4fv( glGetUniformLocation( command->DrawBitmap.shader, "mvp" ), 1, GL_FALSE, command->DrawBitmap.mvp );
 //		glUniform2fv( glGetUniformLocation( command->DrawBitmap.shader, "size" ), 1, command->DrawBitmap.size );
 //
 		GLsizei stride = sizeof( VertexBitmap );
-		int n_verts = command->DrawBitmap.vbo_n / stride;
+		int n_verts = data->vbo_n / stride;
 		auto uv_offset = (const void*)sizeof( VertexBitmap::pos );
 
-		glBindBuffer( GL_ARRAY_BUFFER, command->DrawBitmap.vbo );
-		glVertexAttribPointer( glGetAttribLocation( command->DrawBitmap.shader, "pos" ), 3, GL_FLOAT, GL_FALSE, stride, 0 );
-		glVertexAttribPointer( glGetAttribLocation( command->DrawBitmap.shader, "uv" ), 2, GL_FLOAT, GL_FALSE, stride, uv_offset );
+		glBindBuffer( GL_ARRAY_BUFFER, data->vbo );
+		glVertexAttribPointer( glGetAttribLocation( data->shader, "pos" ), 3, GL_FLOAT, GL_FALSE, stride, 0 );
+		glVertexAttribPointer( glGetAttribLocation( data->shader, "uv" ), 2, GL_FLOAT, GL_FALSE, stride, uv_offset );
 		//glVertexAttribPointer( glGetAttribLocation( data.shader, "col" ), 3, GL_FLOAT, GL_FALSE, stride, 0 );
 
 		// TODO bind relevant texture here.
@@ -197,8 +208,8 @@ static void render()
 	for ( u32 i = 0, n = render_queue.size; i < n; ++i )
 	{
 		int command_i = render_queue.key[ i ].RenderCommon.data_index;
-		RenderCommand& command = render_queue.cmd[ command_i ];
-		command.Common.func( &command );
+		RenderCommand& cmd = render_queue.cmd[ command_i ];
+		cmd.func( 0, &cmd.data );
 	}
 
 	SDL_GL_SwapWindow( sdl_window );
@@ -246,7 +257,7 @@ int main()
 	}
 
 	sdl_window = SDL_CreateWindow(
-		"SDL Tutorial",
+		"xgfx",
 		SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
 		960, 480,
 		SDL_WINDOW_OPENGL
@@ -288,28 +299,33 @@ int main()
 
 	glClearColor( 1.0f, 0.1f, 1.0f, 1.0f );
 
-	ShaderLoader_OpenGL shader_loader;
-	u32 shader_handle;
-	shader_loader.load( (shader_source_prefix+vert).c_str(), (shader_source_prefix+frag).c_str(), shader_handle );
+	{
+		ShaderLoader_OpenGL shader_loader;
+		u32 shader_handle;
+		shader_loader.load( (shader_source_prefix+vert).c_str(), (shader_source_prefix+frag).c_str(), shader_handle );
 
-	MeshLoader_OpenGL mesh_loader;
-	Mesh quad_mesh = mesh_loader.load( sizeof(quad), quad );
+		MeshLoader_OpenGL mesh_loader;
+		Mesh quad_mesh = mesh_loader.load( sizeof(quad), quad );
 
-	quad_key.RenderTranslucent.translucency_type = 1;
-	quad_key.RenderTranslucent.depth = 1;
+		quad_key.RenderTranslucent.translucency_type = 1;
+		quad_key.RenderTranslucent.depth = 1;
 
-	quad_cmd.DrawBitmap.func = draw_bitmap;
-	quad_cmd.DrawBitmap.vbo_n = quad_mesh.vbo_n;
-	quad_cmd.DrawBitmap.vbo = quad_mesh.vbo;
-	quad_cmd.DrawBitmap.shader = shader_handle;
-//	quad_cmd.DrawBitmap.bitmap = reinterpret_cast< RetroGraphics::TextureManager_OpenGL& >( *_texture_manager ).lookup( bitmap );
-	quad_cmd.DrawBitmap.size[ 0 ] = 128;
-	quad_cmd.DrawBitmap.size[ 1 ] = 128;
+		RenderDataBitmap data;
+		data.vbo_n = quad_mesh.vbo_n;
+		data.vbo = quad_mesh.vbo;
+		data.shader = shader_handle;
+	//	data.bitmap = reinterpret_cast< RetroGraphics::TextureManager_OpenGL& >( *_texture_manager ).lookup( bitmap );
+		data.size[ 0 ] = 128;
+		data.size[ 1 ] = 128;
 
-	render_queue.cmd.push_back( quad_cmd );
-	render_queue.key.push_back( quad_key );
-	render_queue.key[ render_queue.size ].RenderCommon.data_index = render_queue.size;
-	++render_queue.size;
+		quad_cmd.func = (xgfx::RenderFunc) draw_bitmap;
+		quad_cmd.data = data.raw;
+
+		render_queue.cmd.push_back( quad_cmd );
+		render_queue.key.push_back( quad_key );
+		render_queue.key[ render_queue.size ].RenderCommon.data_index = render_queue.size;
+		++render_queue.size;
+	}
 
 #ifdef __EMSCRIPTEN__
 	// TODO Use emscripten_set_main_loop_arg for passing args!
