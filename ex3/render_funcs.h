@@ -5,6 +5,8 @@
 #include <xgfx/render_func.h>
 #include <xgfx/render_command.h>
 
+#include "system_render.h"
+
 struct VertexBitmap
 {
 	float pos[ 3 ];

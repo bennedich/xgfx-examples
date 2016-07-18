@@ -9,7 +9,6 @@
 
 #include "time_delta.h"
 #include "input_context.h"
-#include "render_context.h"
 #include "render_funcs.h"
 
 #include "component_transform.h"
@@ -127,7 +126,6 @@ int main()
 	auto stay_alive = std::make_shared<bool>();
 	auto time = std::make_shared<TimeDelta>();
 	auto input_context = std::make_shared<InputContext>();
-	auto render_context = std::make_shared<RenderContext>();
 	auto render_queue = std::make_shared<xgfx::RenderQueue>();
 	auto render_funcs = std::make_shared<RenderFuncs>( render_funcs_OpenGL );
 
@@ -143,7 +141,7 @@ int main()
 	systems.push_back( std::make_shared<SystemMovement>(time, input_context, c_tfm, c_phy, c_cam) );
 	systems.push_back( std::make_shared<SystemCamera>(sdl_window, c_tfm, c_cam) );
 	systems.push_back( std::make_shared<SystemEntrypoint>(render_funcs, render_queue, e_mgr, c_tfm, c_phy, c_cam) );
-	systems.push_back( std::make_shared<SystemRender>(sdl_window, render_context, render_queue, c_cam) );
+	systems.push_back( std::make_shared<SystemRender>(sdl_window, render_queue, c_cam) );
 
 	xecs::Application app( stay_alive, systems );
 	app.run();
