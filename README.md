@@ -4,6 +4,10 @@ Examples using the emscripten renderer [`xgfx`](https://github.com/bennedich/xgf
 - [`ex1` - Barebones rendering of a quad.](https://bennedich.github.io/xgfx-examples/ex1.html)
 - [`ex2` - Barebones fps camera navigation using `glm`.](https://bennedich.github.io/xgfx-examples/ex2.html)
 - [`ex3` - A rewrite of ex2 using a tiny entity component system.](https://bennedich.github.io/xgfx-examples/ex3.html)
+- [`ex4` - A finite borderless 4d starfield.](https://bennedich.github.io/xgfx-examples/ex4.html)
+- [`ex5` - A lonely planet in space.](https://bennedich.github.io/xgfx-examples/ex5.html)
+- [`ex6` - Planet with atmospheric scattering.](https://bennedich.github.io/xgfx-examples/ex6.html)
+- [`ex7` - Cubemap.](https://bennedich.github.io/xgfx-examples/ex7.html)
 
 ## Build and run
 
