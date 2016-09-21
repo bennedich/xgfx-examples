@@ -8,6 +8,8 @@ Examples using the emscripten renderer [`xgfx`](https://github.com/bennedich/xgf
 - [`ex5` - A lonely planet in space.](https://bennedich.github.io/xgfx-examples/ex5.html)
 - [`ex6` - Planet with atmospheric scattering.](https://bennedich.github.io/xgfx-examples/ex6.html)
 - [`ex7` - Cubemap.](https://bennedich.github.io/xgfx-examples/ex7.html)
+- [`ex8` - Font rendering using MSDF.](https://bennedich.github.io/xgfx-examples/ex8.html)
+- [`ex9` - Gui layer with fps counter.](https://bennedich.github.io/xgfx-examples/ex9.html)
 
 ## Build and run
 
